@@ -66,6 +66,14 @@
         .hidden {
             display: none;
         }
+
+        #footer {
+            position: fixed;
+            bottom: 0;
+            margin-bottom: 15px;
+            opacity: 35%;
+            pointer-events: none;
+        }
     </style>
     <meta name="description" content="quick link shortening.">
     <meta name="keywords" content="link shortener, free url shortener, short link, yup.lol">
@@ -89,6 +97,8 @@
         <span id="shortenedlink">shortened link: https://yup.lol/asuem</span>
         <button id="copybtn">copy</button>
     </div>
+
+    <p id="footer">made by dumo. <script>document.write(new Date().getFullYear())</script></p>
 
     <script>
         const linktoshorten = document.getElementById('linktoshorten');

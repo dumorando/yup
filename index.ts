@@ -1,21 +1,7 @@
 import Elysia, { redirect, status } from "elysia";
-import { minify } from "html-minifier-terser";
 import z from "zod";
 import { MongoClient } from 'mongodb';
-
-const html = await minify(await Bun.file('index.html').text(), {
-    minifyCSS: true,
-    minifyJS: true,
-    removeComments: true,
-    collapseWhitespace: true,
-    removeRedundantAttributes: true,
-    removeScriptTypeAttributes: true,
-    removeStyleLinkTypeAttributes: true,
-    minifyURLs: true,
-    useShortDoctype: true,
-    removeEmptyAttributes: true,
-    keepClosingSlash: true,
-});
+import app from './index.html';
 
 const client = new MongoClient(process.env.MONGO!);
 await client.connect();
@@ -24,10 +10,7 @@ const db = client.db('yup');
 const links = db.collection('links');
 
 new Elysia()
-    .get('/', ({ set }) => {
-        set.headers['content-type'] = 'text/html';
-        return html;
-    })
+    .get('/', app)
     .get('/:code', async ({ params: { code } }) => {
         const data = await links.findOne({ code });
         if (!data) {
